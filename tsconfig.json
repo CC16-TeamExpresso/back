@@ -1,10 +1,13 @@
 {
 	"compilerOptions": {
 		"target": "es2017",
-		"outDir": "build",
+		"outDir": "./build",
 		"module": "commonjs",
 		"esModuleInterop": true,
 		"noImplicitAny": false,
 		"forceConsistentCasingInFileNames": true
-	}
+	},
+	"include": [
+		"src"
+	]
 }
