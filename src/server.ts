@@ -10,7 +10,7 @@ const app = express();
 
 const JWT_SECRET_TOKEN = 'qwgbypaoosixakkknbyyuyumnnusfhdsknfcksdnvcduhvjdfnajdhjkdlfjhjd';
 
-mongoose.connect('mongodb://localhost:27017/peekify');
+mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
 
 if (process.env.NODE_ENV !== 'production') {
 	app.use(cors());
@@ -34,6 +34,7 @@ app.post('/api/register', async (req, res) => {
 	try {
 		const user = new User({ email, password });
 		await user.save();
+		
 	} catch (error) {
 		console.log('Error', error);
 		res.json({ status: 'error', error: 'there is an error check it from error status code' });
