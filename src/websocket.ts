@@ -12,7 +12,7 @@ export default function setupWebSocketServer() {
 				//broken msg
 				return;
 			}
-			ws.send(JSON.stringify(message));
+			ws.send(JSON.stringify({ ...message, user: 'self', intent: 'chat' })); //messges from self for now
 			console.log(message, 'is the message');
 		});
 	});
