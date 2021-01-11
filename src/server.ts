@@ -3,9 +3,11 @@ import express from 'express'; // ts
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import setupWebSocketServer from './websocket';
+import './websocket';
 import { verifyJWT, test } from './verifyJWT';
-import { register, login } from "./userController";
+import { spotifyLogin, getToken, getUriFromFront}  from "./spotify";
+import { register, login } from './userController';
+
 
 const app = express();
 
@@ -16,7 +18,7 @@ const PORT = process.env.PORT || 8050;
 mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
 
 // for local test
-// mongoose.connect('mongodb://localhost:27017/peekify');
+//mongoose.connect('mongodb://localhost:27017/peekify');
 
 if (process.env.NODE_ENV !== 'production') {
 	app.use(cors()); //only used for development
@@ -40,7 +42,16 @@ app.use('/api', verifyJWT);
 //test is a function -> check src/verifyJWT
 app.post('/api/test', test);
 
+//login with spotify
+app.get("/spotifylogin", spotifyLogin) 
+
+//get access_token for query
+app.get("/callback", getToken)  
+
+//get uri from front
+app.post('/senduri', getUriFromFront)
+
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
 });
-setupWebSocketServer();
+//setupWebSocketServer();
