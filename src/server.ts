@@ -41,6 +41,9 @@ app.post('/register', async (req, res) => {
 	try {
 		const user = new User({ email, password }); //
 		await user.save();
+
+		return res.json({ status: 'ok'});
+
 	} catch (error) {
 		console.log('Error', error);
 		res.json({ status: 'error', error: 'Email is duplicated' }); //error should be checked but its "duplicated email problem" mostly
