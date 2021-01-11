@@ -13,10 +13,10 @@ const app = express();
 //please use .env!
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
-// mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
+mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
 
 //for local test
-mongoose.connect('mongodb://localhost:27017/peekify');
+// mongoose.connect('mongodb://localhost:27017/peekify');
 
 if (process.env.NODE_ENV !== 'production') {
 	app.use(cors()); //only used for development
@@ -41,6 +41,9 @@ app.post('/register', async (req, res) => {
 	try {
 		const user = new User({ email, password }); //
 		await user.save();
+
+		return res.json({ status: 'ok'});
+
 	} catch (error) {
 		console.log('Error', error);
 		res.json({ status: 'error', error: 'Email is duplicated' }); //error should be checked but its "duplicated email problem" mostly
