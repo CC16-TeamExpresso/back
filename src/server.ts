@@ -12,10 +12,11 @@ const app = express();
 
 //please use .env!
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
+const PORT = process.env.PORT || 8050;
 
 mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
 
-//for local test
+// for local test
 // mongoose.connect('mongodb://localhost:27017/peekify');
 
 if (process.env.NODE_ENV !== 'production') {
@@ -76,5 +77,7 @@ app.use('/api', verifyJWT);
 //test is a function -> check src/verifyJWT
 app.post('/api/test', test);
 
-app.listen(8050);
+app.listen(PORT, () => {
+	console.log(`The server has started on the number: ${PORT}`);
+});
 setupWebSocketServer();
