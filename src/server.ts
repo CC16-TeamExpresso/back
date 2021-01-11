@@ -3,10 +3,11 @@ import express from 'express'; // ts
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import setupWebSocketServer from './websocket';
+import './websocket';
 import { verifyJWT, test } from './verifyJWT';
-import { register, login } from "./userController";
 import { spotifyLogin, getToken, getUriFromFront}  from "./spotify";
+import { register, login } from './userController';
+
 
 const app = express();
 
@@ -53,4 +54,4 @@ app.post('/senduri', getUriFromFront)
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
 });
-setupWebSocketServer();
+//setupWebSocketServer();
