@@ -14,10 +14,10 @@ const app = express();
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 const PORT = process.env.PORT || 8050;
 
-//mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
+mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
 
 // for local test
-mongoose.connect('mongodb://localhost:27017/peekify');
+//mongoose.connect('mongodb://localhost:27017/peekify');
 
 if (process.env.NODE_ENV !== 'production') {
 	app.use(cors()); //only used for development
