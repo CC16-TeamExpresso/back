@@ -25,7 +25,7 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-	res.send('server works check 1');
+	res.send('server works check 2');
 });
 
 app.post('/register', async (req, res) => {
