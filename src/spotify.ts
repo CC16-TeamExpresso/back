@@ -6,8 +6,9 @@ import axios from "axios";
 import qs from "querystring";
 const client_id = process.env.SPOTIFY_CLIENT_ID; // app's client id 
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET; // app's client secret　
-const redirect_uri = "http://localhost:8050/callback"; // redirect uri
-
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8050";
+const redirect_uri = BACKEND_URL + "/callback"
+ 
 const app = express();
 
 if (process.env.NODE_ENV !== 'production') {
@@ -62,9 +63,11 @@ export const getToken = (req,res)=>{
         let access_token=response.data.access_token       
         
       //Pass the token to the browser to make requests for current playing from there
+      let FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000"
         res.redirect(
       // To redirect to the front end url (hardcoded in this case)
-              "http://localhost:3000/feed/?" +
+              //"http://localhost:3000/feed/?" +
+              FRONTEND_URL + "/feed/?" +
                qs.stringify({
                access_token: access_token,
              })
