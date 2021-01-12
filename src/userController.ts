@@ -48,11 +48,23 @@ export const login = async (req, res) => {
 	return res.json({ status: 'ok', data: payload });
 }
 
+//for getUsers
 interface userObj{
 	username: string,
 	lat: number,
 	lng: number,
 	post: any,
+	distance: number
+}
+
+//utiliti function calc distance from lat/lng
+const calcDistance = (lat1, lng1, lat2, lng2) => {
+  const lat1PI = lat1 * Math.PI / 180;
+  const lng1PI = lng1 * Math.PI / 180;
+  const lat2PI = lat2 * Math.PI / 180;
+  const lng2PI = lng2 * Math.PI / 180;
+  const dis = 6371 * Math.acos(Math.cos(lat1PI) * Math.cos(lat2PI) * Math.cos(lng2PI - lng1PI) + Math.sin(lat1PI) * Math.sin(lat2PI));
+  return dis;
 }
 //get users except myself, with last post info
 export const getUsers = async (req, res) => {
@@ -68,9 +80,24 @@ export const getUsers = async (req, res) => {
 			username: user.username,
 			lat: user.lat,
 			lng: user.lng,
-			post: user.posts[user.posts.length - 1]
+			post: user.posts[user.posts.length - 1],
+			distance: calcDistance(userOwn.lat, userOwn.lng, user.lat, user.lng)
 		};
 		result.push(obj);
 	})
+	result.sort((x, y) => x.distance - y.distance);
 	res.json({result})
+}
+
+export const updateGPS = async (req, res) => {
+	const user = res.locals.user;
+	console.log(user);
+	const { lat, lng } = req.body;
+	try{
+		const result = await User.updateOne({email:user.email},{lat, lng});
+		res.json({status: "ok", user: user.username})
+	} catch(err) {
+		console.log(err);
+		res.json({status:"error"})
+	}
 }
