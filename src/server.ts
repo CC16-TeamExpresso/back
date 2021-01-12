@@ -19,9 +19,9 @@ mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/pee
 // for local test
 // mongoose.connect('mongodb://localhost:27017/peekify');
 
-if (process.env.NODE_ENV !== 'production') {
+// if (process.env.NODE_ENV !== 'production') {
 	app.use(cors()); //only used for development
-}
+// }
 
 app.use(bodyParser.json());
 
