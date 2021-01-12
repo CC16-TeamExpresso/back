@@ -76,14 +76,16 @@ export const getUsers = async (req, res) => {
 		.exec();
 	const result: userObj[] = [];
 	users.forEach((user: any) => {
-		const obj: userObj = {
-			username: user.username,
-			lat: user.lat,
-			lng: user.lng,
-			post: user.posts[user.posts.length - 1],
-			distance: calcDistance(userOwn.lat, userOwn.lng, user.lat, user.lng)
-		};
-		result.push(obj);
+		if(user.posts.length > 0) {
+			const obj: userObj = {
+				username: user.username,
+				lat: user.lat,
+				lng: user.lng,
+				post: user.posts[user.posts.length - 1],
+				distance: calcDistance(userOwn.lat, userOwn.lng, user.lat, user.lng)
+			};
+			result.push(obj);
+		}
 	})
 	result.sort((x, y) => x.distance - y.distance);
 	res.json({result})
