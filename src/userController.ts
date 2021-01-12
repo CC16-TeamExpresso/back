@@ -36,13 +36,13 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
   const passwordHash = encrypto(password);
 
-	const user = await User.findOne({ email, password: passwordHash }).lean(); //match the email and password and the record for that user . "Lean" keyword  will remove out all the meta data coming with the mongo object and get us a plain json object
+	const user: any = await User.findOne({ email, password: passwordHash }).lean(); //match the email and password and the record for that user . "Lean" keyword  will remove out all the meta data coming with the mongo object and get us a plain json object
 
 	if (!user) {
 		return res.json({ status: 'error', error: 'User Not Registered' });
 	}
 
-	const payload = jwt.sign({ email }, JWT_SECRET_TOKEN); //payload of the user, this will SIGN the email with the token.
+	const payload = jwt.sign({ email, username: user.username }, JWT_SECRET_TOKEN); //payload of the user, this will SIGN the email with the token.
 	//Note: the jwt_secret_token I wrote needs more randomness
 
 	return res.json({ status: 'ok', data: payload });
