@@ -55,16 +55,19 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 //reference from authentication : https://github.com/websockets/ws
 server.on('upgrade', function upgrade(request, socket, head) {
 	const token = request.url.slice(1); //remove the backslash from the token url that we got from request
-	//console.log('REQUEST', request);
-	const payload: any = jwt.verify(token, process.env.JWT_SECRET_TOKEN); //verfity if token is correctly signed and change the type?
-	if (!payload) {
+	//console.log('REQUEST', request); // this will show you the request which is a very huge file but it has a url part so we used that.
+	let email: string = '';
+	try {
+		const payload: any = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
+		email = payload.email; //verfity if token is correctly signed // change the type of any ?
+	} catch (error) {
 		socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
 		socket.destroy();
 		return;
 	}
 	wss.handleUpgrade(request, socket, head, function done(ws) {
 		const _ws = ws as CustomWebSocket;
-		_ws.connectionID = payload.email;
+		_ws.connectionID = email;
 
 		wss.emit('connection', ws, request);
 	});
