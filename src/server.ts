@@ -5,9 +5,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import './websocket';
 import { verifyJWT, test } from './verifyJWT';
-import { spotifyLogin, getToken, getUriFromFront}  from "./spotify";
+import { spotifyLogin, getToken, getUriFromFront } from './spotify';
 import { register, login } from './userController';
-
 
 const app = express();
 
@@ -43,13 +42,13 @@ app.use('/api', verifyJWT);
 app.post('/api/test', test);
 
 //login with spotify
-app.get("/spotifylogin", spotifyLogin) 
+app.get('/spotifylogin', spotifyLogin);
 
 //get access_token for query
-app.get("/callback", getToken)  
+app.get('/callback', getToken);
 
 //get uri from front
-app.post('/senduri', getUriFromFront)
+app.post('/senduri', getUriFromFront);
 
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
