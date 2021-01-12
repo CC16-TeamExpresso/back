@@ -6,14 +6,13 @@ import mongoose from 'mongoose';
 import './websocket';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken, getUriFromFront}  from "./spotify";
-import { register, login, getUsers } from './userController';
+import { register, login, getUsers, updateGPS } from './userController';
 import { postMusic } from "./postController";
 
 
 const app = express();
 
 //please use .env!
-const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 const PORT = process.env.PORT || 8050;
 
 // mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
@@ -57,6 +56,9 @@ app.post("/api/music", postMusic);
 
 //get users
 app.get("/api/user", getUsers)
+
+//updateGPS data
+app.patch("/api/usergps", updateGPS);
 
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
