@@ -1,6 +1,8 @@
 import User from './models/user';
+import Post from "./models/post"
 import { encrypto } from "./crypto";
 import jwt from 'jsonwebtoken';
+import { postMusic } from './postController';
 
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
@@ -44,4 +46,31 @@ export const login = async (req, res) => {
 	//Note: the jwt_secret_token I wrote needs more randomness
 
 	return res.json({ status: 'ok', data: payload });
+}
+
+interface userObj{
+	username: string,
+	lat: number,
+	lng: number,
+	post: any,
+}
+//get users except myself, with last post info
+export const getUsers = async (req, res) => {
+	const userOwn = res.locals.user;
+	const users =  await User.find({email: {"$ne": userOwn.email}})
+		.populate({
+			path: "posts"
+		})
+		.exec();
+	const result: userObj[] = [];
+	users.forEach((user: any) => {
+		const obj: userObj = {
+			username: user.username,
+			lat: user.lat,
+			lng: user.lng,
+			post: user.posts[user.posts.length - 1]
+		};
+		result.push(obj);
+	})
+	res.json({result})
 }
