@@ -1,8 +1,7 @@
 require('dotenv').config();
 import WebSocket from 'ws';
 import { CustomWebSocket, processMessage } from './utilities';
-import Message from './models/messages';
-import { v4 as uuid } from 'uuid';
+import { broadcastMessage, clients, setClients, retrieveAndSendMessages } from './wsFunctions';
 import http from 'http';
 import jwt from 'jsonwebtoken';
 import { verifyJWT, test } from './verifyJWT';
@@ -10,46 +9,29 @@ import { verifyJWT, test } from './verifyJWT';
 const server = http.createServer();
 const wss = new WebSocket.Server({ noServer: true });
 
-let clients: WebSocket[] = [];
-
 wss.on('connection', function connection(ws: CustomWebSocket) {
 	//look at utilities
 	//create connection ID
 	clients.push(ws);
 	ws.on('close', () => {
 		//when connection is closed the user is removed from clients
-		clients = clients.filter((generalSocket) => ws.connectionID !== ws.connectionID);
+		setClients(clients.filter((generalSocket) => ws.connectionID !== ws.connectionID));
 	});
 	ws.on('message', function incoming(payload) {
 		const message = processMessage(payload.toString());
 
-		if (!message) {
+		if (!message || message.intent !== 'chat') {
 			//broken msg
 			return;
 		}
 
-		const newMessage = new Message({
-			email: ws.connectionID,
-			message: message.message,
-			date: Date.now(),
-		});
-
-		newMessage.save();
-
-		for (let i = 0; i < clients.length; i++) {
-			//comments or messages should be seen by all connected clients as soon as the the msg is sent
-			const client = clients[i];
-			client.send(
-				JSON.stringify({
-					message: message.message,
-					user: ws.connectionID,
-					intent: 'chat',
-				})
-			);
+		if (message.intent === 'chat') {
+			broadcastMessage(message, ws);
+		} else if (message.intent === 'old-messages') {
+			const count = message.count;
+			if (!count) return;
+			else retrieveAndSendMessages(ws, count);
 		}
-		//server.listen(1338);
-		//ws.send(JSON.stringify({ ...message, user: 'self', intent: 'chat' })); //messges from self for now
-		console.log(message, 'is the message');
 	});
 });
 
