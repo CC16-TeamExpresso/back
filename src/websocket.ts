@@ -22,13 +22,14 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 	});
 	ws.on('message', function incoming(payload) {
 		const message = processMessage(payload.toString());
+
 		if (!message) {
 			//broken msg
 			return;
 		}
 
 		const newMessage = new Message({
-			email: 'user@a.com',
+			email: ws.connectionID,
 			message: message.message,
 			date: Date.now(),
 		});
@@ -41,7 +42,7 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 			client.send(
 				JSON.stringify({
 					message: message.message,
-					user: 'user',
+					user: ws.connectionID,
 					intent: 'chat',
 				})
 			);
