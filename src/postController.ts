@@ -10,12 +10,12 @@ export const postMusic = async (req, res) => {
   try{
     const post = new Post({email: user.email, uri});
     const result = await post.save();
-    const test = await User.updateOne({email: user.email},{
+    const resultUser = await User.updateOne({email: user.email},{
       $push:{
         posts: result._id
       }
     })
-    res.json({test});
+    res.json({result: resultUser.ok});
   } catch(error) {
     console.log("Error:", error);
     res.json({status: "error"});
