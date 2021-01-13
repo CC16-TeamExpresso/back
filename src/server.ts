@@ -3,7 +3,6 @@ import express from 'express'; // ts
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
-import './websocket';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken, getUriFromFront } from './spotify';
 import { register, login, getUsers, updateGPS } from './userController';
