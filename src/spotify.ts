@@ -1,7 +1,4 @@
 require("dotenv").config();
-import express from 'express'; 
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import axios from "axios";
 import qs from "querystring";
 const client_id = process.env.SPOTIFY_CLIENT_ID; // app's client id 
@@ -9,18 +6,6 @@ const client_secret = process.env.SPOTIFY_CLIENT_SECRET; // app's client secretã
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8050";
 const redirect_uri = BACKEND_URL + "/callback"
  
-const app = express();
-
-if (process.env.NODE_ENV !== 'production') {
-	app.use(cors());
-}
-
-app.use(bodyParser.json());
-
-app.use(express.static(__dirname + "/public")).use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-
 export const spotifyLogin = (req,res)=>{
    //scope of data to be shared with our app need to declared
   console.log("spotifylogin")
