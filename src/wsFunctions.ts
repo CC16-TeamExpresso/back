@@ -34,7 +34,10 @@ export function broadcastMessage(message: any, ws: CustomWebSocket) {
 }
 
 export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number) {
-	const messages = await Message.find({}).sort({ date: 1 }).limit(count).lean(); //get js based array
+	const messages = await Message.find({}, { email: 1, message: 1 })
+		.sort({ date: 1 })
+		.limit(count)
+		.lean(); //get js based array
 	ws.send(
 		JSON.stringify({
 			intent: 'old-messges',
