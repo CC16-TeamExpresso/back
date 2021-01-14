@@ -21,3 +21,31 @@ export const postMusic = async (req, res) => {
     res.json({status: "error"});
   }
 }
+
+
+interface userObj{
+	username: string,
+	post: any,
+
+}
+
+export const getOwnPosts = async (req, res) => {
+	const userOwn = res.locals.user;
+	const users =  await User.find({email:  userOwn.email})
+		.populate({
+			path: "posts"
+		})
+		.exec();
+	const result: userObj[] = [];
+	users.forEach((user: any) => {
+		if(user.posts.length > 0) {
+			const obj: userObj = {
+				username: user.username,
+				post: user.posts,
+
+			};
+			result.push(obj);
+		}
+	})
+	res.json({result})
+}
