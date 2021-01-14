@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
-import { spotifyLogin, getToken, getUriFromFront } from './spotify';
+import { spotifyLogin, getToken} from './spotify';
 import { register, login, getUsers, updateGPS } from './userController';
 import { postMusic, getOwnPosts } from './postController';
 
@@ -45,9 +45,6 @@ app.get('/spotifylogin', spotifyLogin);
 
 //get access_token for query
 app.get('/callback', getToken);
-
-//get uri from front
-app.post('/senduri', getUriFromFront);
 
 //post uri
 app.post('/api/music', postMusic);
