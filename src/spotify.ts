@@ -54,14 +54,12 @@ export const getToken = (req,res)=>{
               //"http://localhost:3000/feed/?" +
               FRONTEND_URL + "/feed/?" +
                qs.stringify({
-               access_token: access_token,
+               access_token: access_token,               
              })
         )
       })
       .catch(err=>{console.log(err.message)})};
 
  
-export const getUriFromFront=(req, res) => {
-	console.log(req.body);
-}
+
 
