@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
 import { register, login, getUsers, updateGPS } from './userController';
-import { postMusic, getOwnPosts } from './postController';
+import { postMusic, getOwnPosts, getMessages } from './postController';
 
 const app = express();
 
@@ -52,7 +52,11 @@ app.post('/api/music', postMusic);
 //get users
 app.get('/api/user', getUsers);
 
+//get own post history
 app.get('/api/post', getOwnPosts)
+
+//get messages on the post
+app.get("/api/message/:postid", getMessages);
 
 //updateGPS data
 app.patch('/api/usergps', updateGPS);

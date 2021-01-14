@@ -49,3 +49,27 @@ export const getOwnPosts = async (req, res) => {
 	})
 	res.json({result})
 }
+
+interface messageObj {
+  username: String;
+  message: String;
+}
+
+export const getMessages = async (req, res) => {
+  const postId = req.params.postid;
+  const results: any = await Post.findOne({_id: postId})
+    .populate({
+      path: "messages"
+    })
+    .exec();
+  const messages = results.messages;
+  const result = [];
+  messages.forEach((message) => {
+    const obj: messageObj = {
+    username: message.email,
+    message: message.message
+    }
+    result.push(obj);
+  })
+  res.json({result});
+}
