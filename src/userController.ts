@@ -1,5 +1,5 @@
 import User from './models/user';
-import Post from "./models/post"
+import Follower from "./models/followers";
 import { encrypto } from "./crypto";
 import jwt from 'jsonwebtoken';
 import { postMusic } from './postController';
@@ -17,8 +17,9 @@ export const register = async (req, res) => {
 	}
 
 	try {
+		const follower = await new Follower({ followers: []}).save();
     const passwordHash = encrypto(password);
-		const user = new User({ email, password: passwordHash, username, lat, lng }); 
+		const user = new User({ email, password: passwordHash, username, lat, lng, followers: follower._id }); 
 		await user.save();
 
 		return res.json({ status: 'ok'});
