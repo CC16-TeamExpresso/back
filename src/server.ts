@@ -7,6 +7,7 @@ import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
 import { register, login, getUsers, updateGPS } from './userController';
 import { postMusic, getOwnPosts, getMessages, increaseLike } from './postController';
+import { addFollower } from "./followersController";
 
 const app = express();
 
@@ -63,6 +64,9 @@ app.patch('/api/usergps', updateGPS);
 
 //update like's count
 app.patch('/api/like/:postid', increaseLike);
+
+//add an user to followers list
+app.patch('/api/follow/:userid', addFollower);
 
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
