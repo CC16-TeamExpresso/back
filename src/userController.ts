@@ -2,8 +2,6 @@ import User from './models/user';
 import Follower from "./models/followers";
 import { encrypto } from "./crypto";
 import jwt from 'jsonwebtoken';
-import { postMusic } from './postController';
-import { transpileModule } from 'typescript';
 
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
