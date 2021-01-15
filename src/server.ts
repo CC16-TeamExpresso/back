@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
 import { register, login, getUsers, updateGPS, getUsersFiltered } from './userController';
-import { postMusic, getOwnPosts, getMessages, increaseLike } from './postController';
+import { postMusic, getOwnPosts, getMessages, increaseLike, decreaseLike } from './postController';
 import { addFollower } from "./followersController";
 
 const app = express();
@@ -65,8 +65,11 @@ app.get("/api/message/:postid", getMessages);
 //updateGPS data
 app.patch('/api/usergps', updateGPS);
 
-//update like's count
+//update like's count -> +1
 app.patch('/api/like/:postid', increaseLike);
+
+//update like's count -> -1
+app.patch('/api/dislike/:postid', decreaseLike);
 
 //add an user to followers list
 app.patch('/api/follow/:userid', addFollower);
