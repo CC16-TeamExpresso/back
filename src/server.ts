@@ -5,7 +5,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
-import { register, login, getUsers, updateGPS } from './userController';
+import { register, login, getUsers, updateGPS, getUsersFiltered } from './userController';
 import { postMusic, getOwnPosts, getMessages, increaseLike } from './postController';
 import { addFollower } from "./followersController";
 
@@ -52,6 +52,9 @@ app.post('/api/music', postMusic);
 
 //get users
 app.get('/api/user', getUsers);
+
+//get users filterd by distance
+app.get('/api/user/filter', getUsersFiltered)
 
 //get own post history
 app.get('/api/post', getOwnPosts)
