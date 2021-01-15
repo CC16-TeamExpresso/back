@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
 import { register, login, getUsers, updateGPS } from './userController';
-import { postMusic, getOwnPosts, getMessages } from './postController';
+import { postMusic, getOwnPosts, getMessages, increaseLike } from './postController';
 
 const app = express();
 
@@ -60,6 +60,9 @@ app.get("/api/message/:postid", getMessages);
 
 //updateGPS data
 app.patch('/api/usergps', updateGPS);
+
+//update like's count
+app.patch('/api/like/:postid', increaseLike);
 
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
