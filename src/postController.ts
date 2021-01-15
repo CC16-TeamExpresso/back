@@ -73,3 +73,18 @@ export const getMessages = async (req, res) => {
   })
   res.json({result});
 }
+
+export const increaseLike = async (req, res) => {
+  const postId = req.params.postid;
+  const result: any = await Post.findOne({_id: postId});
+  const like = result.like + 1;
+  const resultInsert = await Post.updateOne({_id: postId}, {
+    like: like
+  });
+  // res.json({resultInsert});
+  if(resultInsert.ok === 1) {
+    res.json({status:"ok", like: like});
+  }else {
+    res.json({status: "ng"});
+  }
+}
