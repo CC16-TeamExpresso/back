@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import Post from "./post";
+import Follower from "./followers";
 
 const UserModel = new mongoose.Schema(
 	{
@@ -8,7 +9,8 @@ const UserModel = new mongoose.Schema(
 		username: {type: String, required: true},
 		lat: {type: Number, required: false},
 		lng: {type: Number, required: false},
-		posts: [{type: Schema.Types.ObjectId, ref: Post, required: false}]
+		posts: [{type: Schema.Types.ObjectId, ref: Post, required: false}],
+		followers: {type: Schema.Types.ObjectId, ref: Follower, required: true}
 	},
 	{ collection: 'users' }
 );
