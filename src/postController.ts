@@ -91,7 +91,7 @@ export const increaseLike = async (req, res) => {
 export const decreaseLike = async (req, res) => {
   const postId = req.params.postid;
   const result: any = await Post.findOne({_id: postId});
-  const like = result.like - 1;
+  const like = result.like === 0 ? 0 : result.like - 1;
   const resultInsert = await Post.updateOne({_id: postId}, {
     like: like
   });
