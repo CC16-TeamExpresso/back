@@ -2,7 +2,6 @@ import User from './models/user';
 import Follower from "./models/followers";
 import { encrypto } from "./crypto";
 import jwt from 'jsonwebtoken';
-import { postMusic } from './postController';
 
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
@@ -103,4 +102,55 @@ export const updateGPS = async (req, res) => {
 		console.log(err);
 		res.json({status:"error"})
 	}
+}
+
+//utility function to calc lat from km
+const calcLat = (dis: number)  => {
+	const POLE_RADIUS = 6356752.314;
+	const lat = (360 * dis * 1000) / (2 * Math.PI * POLE_RADIUS);
+	return lat;
+}
+
+//utility function to calc lng from km
+const calcLng = (dis: number) => {
+  const JAPAN_LATTITUDE = 35;
+  const EQUATOR_RADIUS = 6378137;
+  const lng = (360 * dis * 1000) / (2 * Math.PI * (EQUATOR_RADIUS * Math.cos(JAPAN_LATTITUDE * Math.PI / 180)));
+  return lng;
+}
+
+
+export const getUsersFiltered = async (req, res) => {
+	const userOwn = res.locals.user;
+	const km = Number(req.query.km);
+	const lat = calcLat(km);
+	const lng = calcLng(km);
+	const users =  await User.find({email: {"$ne": userOwn.email}})
+		.populate({
+			path: "posts"
+		})
+		.exec();
+	const usersFilter = users.filter((user) => {
+		if (user.lat <= userOwn.lat + lat && user.lat >= userOwn.lat - lat) {
+			if (user.lng <= userOwn.lng + lng && user.lng >= userOwn.lng - lng) {
+				return true;
+			} 
+		}
+		return false;
+	})
+	const result: userObj[] = [];
+	usersFilter.forEach((user: any) => {
+		if(user.posts.length > 0) {
+			const obj: userObj = {
+				username: user.username,
+				lat: user.lat,
+				lng: user.lng,
+				post: user.posts[user.posts.length - 1],
+				distance: calcDistance(userOwn.lat, userOwn.lng, user.lat, user.lng)
+			};
+			result.push(obj);
+		}
+	})
+	result.sort((x, y) => x.distance - y.distance);
+	res.json({result})
 }
