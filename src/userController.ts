@@ -154,3 +154,31 @@ export const getUsersFiltered = async (req, res) => {
 	result.sort((x, y) => x.distance - y.distance);
 	res.json({result})
 }
+
+interface resultObj{
+	id: String,
+	username: String,
+	posts: any,
+	follow: Boolean
+}
+
+
+export const getOtherUser = async (req, res) => {
+	const userOwn = res.locals.user;
+	const userId = req.params.userid;
+	const result = await User.findOne({_id: userId})
+		.populate({
+			path:"posts"
+		})
+		.exec();
+	const myFollow = await Follower.findOne({_id: userOwn.followers});
+	const resultObj: resultObj = {
+		id: result._id,
+		username: result.username,
+		posts: result.posts,
+		follow: myFollow.followers.includes(userId) ? true : false
+	}
+	
+	res.json({result : resultObj});
+
+}
