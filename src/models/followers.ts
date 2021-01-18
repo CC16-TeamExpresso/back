@@ -1,4 +1,4 @@
-import mongoose, { Schema }from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import User from "./user";
 
 const FollowerModel = new mongoose.Schema(

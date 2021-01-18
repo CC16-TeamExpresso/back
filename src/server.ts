@@ -5,9 +5,9 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { verifyJWT, test } from './verifyJWT';
 import { spotifyLogin, getToken} from './spotify';
-import { register, login, getUsers, updateGPS, getUsersFiltered } from './userController';
+import { register, login, getUsers, updateGPS, getUsersFiltered, getOtherUser } from './userController';
 import { postMusic, getOwnPosts, getMessages, increaseLike, decreaseLike } from './postController';
-import { addFollower } from "./followersController";
+import { addFollower, getOwnFollower } from "./followersController";
 
 const app = express();
 
@@ -56,6 +56,9 @@ app.get('/api/user', getUsers);
 //get users filterd by distance
 app.get('/api/user/filter', getUsersFiltered)
 
+//get another user data
+app.get('/api/user/:userid', getOtherUser);
+
 //get own post history
 app.get('/api/post', getOwnPosts)
 
@@ -73,6 +76,9 @@ app.patch('/api/dislike/:postid', decreaseLike);
 
 //add an user to followers list
 app.patch('/api/follow/:userid', addFollower);
+
+//get followers list
+app.get('/api/follow',getOwnFollower);
 
 app.listen(PORT, () => {
 	console.log(`The server has started on the number: ${PORT}`);
