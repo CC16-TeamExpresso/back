@@ -51,6 +51,7 @@ export const login = async (req, res) => {
 //for getUsers
 interface userObj{
 	username: string,
+	userid: string,
 	lat: number,
 	lng: number,
 	post: any,
@@ -79,6 +80,7 @@ export const getUsers = async (req, res) => {
 		if(user.posts.length > 0) {
 			const obj: userObj = {
 				username: user.username,
+				userid: user._id,
 				lat: user.lat,
 				lng: user.lng,
 				post: user.posts[user.posts.length - 1],
@@ -143,6 +145,7 @@ export const getUsersFiltered = async (req, res) => {
 		if(user.posts.length > 0) {
 			const obj: userObj = {
 				username: user.username,
+				userid: user._id,
 				lat: user.lat,
 				lng: user.lng,
 				post: user.posts[user.posts.length - 1],
