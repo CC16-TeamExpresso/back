@@ -59,7 +59,7 @@ interface userObj{
 }
 
 //utiliti function calc distance from lat/lng
-const calcDistance = (lat1, lng1, lat2, lng2) => {
+export const calcDistance = (lat1, lng1, lat2, lng2) => {
   const lat1PI = lat1 * Math.PI / 180;
   const lng1PI = lng1 * Math.PI / 180;
   const lat2PI = lat2 * Math.PI / 180;
