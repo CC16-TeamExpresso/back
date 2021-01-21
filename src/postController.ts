@@ -22,11 +22,9 @@ export const postMusic = async (req, res) => {
   }
 }
 
-
 interface userObj{
-	username: string,
-	post: any,
-
+	username: string;
+	post: any;
 }
 
 export const getOwnPosts = async (req, res) => {
@@ -42,7 +40,6 @@ export const getOwnPosts = async (req, res) => {
 			const obj: userObj = {
 				username: user.username,
 				post: user.posts,
-
 			};
 			result.push(obj);
 		}

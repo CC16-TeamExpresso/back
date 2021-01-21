@@ -4,7 +4,6 @@ import User from "./models/user";
 
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN;
 
-
 export const verifyJWT = (req, res, next) => {
   let token = req.headers.token;
   if (token) {
@@ -33,7 +32,6 @@ export const verifyJWT = (req, res, next) => {
     });
   }
 }
-
 
 //example: how to use JWT 
 export const test = (req, res) => {

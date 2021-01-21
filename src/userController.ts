@@ -31,20 +31,15 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-	console.log(req.body);
-
+	// console.log(req.body);
   const { email, password } = req.body;
   const passwordHash = encrypto(password);
-
 	const user: any = await User.findOne({ email, password: passwordHash }).lean(); //match the email and password and the record for that user . "Lean" keyword  will remove out all the meta data coming with the mongo object and get us a plain json object
-
 	if (!user) {
 		return res.json({ status: 'error', error: 'User Not Registered' });
 	}
-
 	const payload = jwt.sign({ email, username: user.username }, JWT_SECRET_TOKEN); //payload of the user, this will SIGN the email with the token.
 	//Note: the jwt_secret_token I wrote needs more randomness
-
 	return res.json({ status: 'ok', data: payload });
 }
 
@@ -121,7 +116,6 @@ const calcLng = (dis: number) => {
   return lng;
 }
 
-
 export const getUsersFiltered = async (req, res) => {
 	const userOwn = res.locals.user;
 	const km = Number(req.query.km);
@@ -165,7 +159,6 @@ interface resultObj{
 	follow: Boolean
 }
 
-
 export const getOtherUser = async (req, res) => {
 	const userOwn = res.locals.user;
 	const userId = req.params.userid;
@@ -181,7 +174,5 @@ export const getOtherUser = async (req, res) => {
 		posts: result.posts,
 		follow: myFollow.followers.includes(userId) ? true : false
 	}
-	
 	res.json({result : resultObj});
-
 }
