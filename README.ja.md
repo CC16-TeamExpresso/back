@@ -1,18 +1,17 @@
 # Peekify
 
-Did you ever wonder what is the person next to you listening to ?
+隣で聞いている人は何を聞いているのだろうと思ったことはありませんか？
 
-Our mission is to connect people through this curiosity. 
+私たちのミッションは、この好奇心で人と人をつなぐことです。
 
 ![icon](./peekify.ico)
 
-Peekify is available [here](https://master.d3koc4k87o35ht.amplifyapp.com/)!
+Peekifyは [こちら](https://master.d3koc4k87o35ht.amplifyapp.com/)!
 
 
-### This is the backend web server repository.
+### これはウェブサーバーのレポジトリです。
 
-
-## Technology used
+## 使用した技術について
 
 - [Node.js](https://nodejs.org/en/)
 
@@ -28,7 +27,8 @@ Peekify is available [here](https://master.d3koc4k87o35ht.amplifyapp.com/)!
 
 - [heroku](https://www.heroku.com/home)
 
-## Link
+## リンク
+
 - [General repo](https://github.com/CC16-TeamExpresso/Main-App)
 
 - [FrontEnd repo](https://github.com/CC16-TeamExpresso/front)
