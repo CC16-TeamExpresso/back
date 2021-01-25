@@ -16,7 +16,11 @@ Peekify is available [here](https://master.d3koc4k87o35ht.amplifyapp.com/)!
 
 - [Node.js](https://nodejs.org/en/)
 
+- [TypeScript](https://www.typescriptlang.org/)
+
 - [express](https://expressjs.com/)
+
+- [JWT](https://jwt.io/)
 
 - [mongoDB](https://www.mongodb.com/)
 
